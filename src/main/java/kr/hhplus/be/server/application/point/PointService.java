@@ -20,7 +20,7 @@ public class PointService {
 
     @Transactional
     public PointChargeResult charge(long memberId, long amount) {
-        MemberPoint memberPoint = pointRepository.getById(memberId);
+        MemberPoint memberPoint = pointRepository.getByIdLocking(memberId);
 
         memberPoint.charge(amount);
 

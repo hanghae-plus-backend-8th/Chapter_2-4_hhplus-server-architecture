@@ -24,6 +24,13 @@ public class PointRepositoryImpl implements PointRepository {
     }
 
     @Override
+    public MemberPoint getByIdLocking(long memberId) {
+        return memberJpaRepository.findByIdLocking(memberId)
+                .orElseThrow(() -> new NotFoundResourceException("유효하지 않은 사용자 식별자입니다."))
+                .toMemberPointDomain();
+    }
+
+    @Override
     public void updatePoint(long memberId, long point) {
         MemberEntity memberEntity = memberJpaRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundResourceException("유효하지 않은 사용자 식별자입니다."));
