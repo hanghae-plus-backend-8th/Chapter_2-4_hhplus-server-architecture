@@ -30,7 +30,7 @@ public class CouponService {
     @Transactional
     public CouponDownloadResult download(long couponId, long memberId) {
         Member member = memberRepository.getById(memberId);
-        Coupon coupon = couponRepository.getById(couponId);
+        Coupon coupon = couponRepository.getByIdLocking(couponId);
 
         MemberCoupon memberCoupon = coupon.giveCoupon(member.getMemberId(), LocalDateTime.now());
         memberCouponRepository.save(memberCoupon);

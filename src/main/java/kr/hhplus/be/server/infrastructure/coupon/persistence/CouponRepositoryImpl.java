@@ -38,6 +38,13 @@ public class CouponRepositoryImpl implements CouponRepository {
     }
 
     @Override
+    public Coupon getByIdLocking(Long couponId) {
+        return couponJpaRepository.findByIdLocking(couponId)
+                .orElseThrow(() -> new NotFoundResourceException("유효하지 않은 쿠폰 식별자입니다."))
+                .toDomain();
+    }
+
+    @Override
     public void updateQuantity(long couponId, int remainingQuantity) {
         CouponEntity couponEntity = couponJpaRepository.findById(couponId)
                 .orElseThrow(() -> new NotFoundResourceException("유효하지 않은 쿠폰 식별자입니다."));
