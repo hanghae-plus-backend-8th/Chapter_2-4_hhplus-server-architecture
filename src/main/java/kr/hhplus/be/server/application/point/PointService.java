@@ -1,11 +1,14 @@
 package kr.hhplus.be.server.application.point;
 
+import jakarta.persistence.OptimisticLockException;
 import kr.hhplus.be.server.application.point.PointResult.PointChargeResult;
 import kr.hhplus.be.server.application.point.PointResult.PointInfoResult;
 import kr.hhplus.be.server.domain.point.*;
 import kr.hhplus.be.server.shared.exception.NotFoundResourceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,7 @@ public class PointService {
     private final PointRepository pointRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
+    @Retryable(retryFor = OptimisticLockException.class, maxAttempts = 3, backoff = @Backoff(delay = 1000))
     @Transactional
     public PointChargeResult charge(long memberId, long amount) {
         MemberPoint memberPoint = pointRepository.getByIdLocking(memberId);
