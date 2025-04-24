@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -43,5 +45,13 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
         return orderJpaRepository.save(orderEntity)
                 .toDomain();
+    }
+
+    @Override
+    public List<Order> findAllBy(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return orderJpaRepository.findAllBy(startDateTime, endDateTime)
+                .stream()
+                .map(OrderEntity::toDomain)
+                .toList();
     }
 }
