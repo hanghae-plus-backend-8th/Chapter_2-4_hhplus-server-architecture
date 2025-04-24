@@ -8,5 +8,6 @@ public interface ProductRepository {
     Product getById(Long productId);
     void updateQuantity(long productId, int quantity);
     List<Product> findAllByIds(List<Long> productIds);
+    List<Product> findAllByIdsLocking(List<Long> productIds);
     List<Product> findTopProducts(int limit);
 }

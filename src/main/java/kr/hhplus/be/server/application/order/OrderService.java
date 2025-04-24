@@ -43,10 +43,10 @@ public class OrderService {
         // 사용자 쿠폰, 포인트, 상품 조회
         MemberCoupon memberCoupon = null;
         if (couponNumber != null) {
-            memberCoupon = memberCouponRepository.getByCouponNumber(couponNumber);
+            memberCoupon = memberCouponRepository.getByCouponNumberLocking(couponNumber);
         }
-        MemberPoint memberPoint = pointRepository.getById(memberId);
-        List<Product> products = productRepository.findAllByIds(productIds);
+        MemberPoint memberPoint = pointRepository.getByIdLocking(memberId);
+        List<Product> products = productRepository.findAllByIdsLocking(productIds);
 
         // 쿠폰, 상품 검증
         if (memberCoupon != null && memberCoupon.isNotMine(memberId)) {

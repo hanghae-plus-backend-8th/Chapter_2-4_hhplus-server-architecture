@@ -52,6 +52,14 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public List<Product> findAllByIdsLocking(List<Long> productIds) {
+        return productJpaRepository.findAllByIdsLocking(productIds)
+                .stream()
+                .map(ProductEntity::toDomain)
+                .toList();
+    }
+
+    @Override
     public List<Product> findTopProducts(int limit) {
         return productJpaRepository.findTopProducts(limit)
                 .stream()

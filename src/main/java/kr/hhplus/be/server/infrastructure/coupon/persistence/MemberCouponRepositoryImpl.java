@@ -37,7 +37,7 @@ public class MemberCouponRepositoryImpl implements MemberCouponRepository {
     }
 
     @Override
-    public MemberCoupon getByCouponNumber(String couponNumber) {
+    public MemberCoupon getByCouponNumberLocking(String couponNumber) {
         return memberCouponJpaRepository.findByCouponNumber(couponNumber)
                 .orElseThrow(() -> new NotFoundResourceException("유효하지 않은 쿠폰번호입니다."))
                 .toDomain();
